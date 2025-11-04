@@ -1,10 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "main/base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}{{ product.name }} - FreakShop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Изображение товара -->
+        <div class="col-md-6 position-relative">
+            <!-- Кнопка Назад в левом верхнем углу -->
+            <a href="{% url 'main:product_list' %}?{% if request.GET.sort %}sort={{ request.GET.sort }}{% endif %}"
+               class="btn btn-freak back-button">← Назад</a>
+
+            <div class="product-detail float-animation mt-4">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow">
+            </div>
+        </div>
+
+        <!-- Информация о товаре -->
+        <div class="col-md-6">
+            <!-- Название в рамочке -->
+            <h2 class="product-title neon-box">{{ product.name }}</h2>
+
+            <!-- Цена -->
+            <p class="fw-bold display-6 neon-price">{{ product.price }} ₽</p>
+
+            <!-- Категория в рамочке -->
+            <p class="category-box">Категория: {{ product.category.name }}</p>
+
+            <!-- Описание -->
+            <div class="product-description my-3">
+                {{ product.description|linebreaks }}
+            </div>
+
+            <!-- Кнопка В корзину -->
+            <div class="mt-3">
+                <button class="btn btn-freak add-to-cart">В корзину</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* -------------------------
+       Float-анимация для изображения
+    ------------------------- */
+    @keyframes float-detail {
+        0% { transform: translate(0,0) rotate(0deg); }
+        25% { transform: translate(4px,-3px) rotate(1deg); }
+        50% { transform: translate(-3px,2px) rotate(-1deg); }
+        75% { transform: translate(2px,-2px) rotate(0.5deg); }
+        100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    .float-animation {
+        animation: float-detail 6s ease-in-out infinite;
+    }
+
+    /* Кнопка Назад в левом верхнем углу */
+    .back-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        padding: 5px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Название товара в рамочке */
+    .neon-box {
+        display: inline-block;
+        padding: 10px 15px;
+        border: 2px solid #c76dff;
+        border-radius: 12px;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 0 0 5px #ffb3f2, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+        transition: all 0.3s;
+    }
+    .neon-box:hover {
+        box-shadow: 0 0 15px #ff8ae2, 0 0 25px #c76dff;
+        transform: scale(1.05);
+    }
+
+    /* Цена товара с неоновым свечением */
+    .neon-price {
+        color: #ffffff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+    }
+
+    /* Категория в рамочке */
+    .category-box {
+        display: inline-block;
+        padding: 5px 10px;
+        border: 2px solid #c76dff;
+        border-radius: 10px;
+        color: #ffb3f2;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        transition: all 0.3s;
+    }
+    .category-box:hover {
+        box-shadow: 0 0 15px #ff8ae2, 0 0 25px #c76dff;
+        transform: scale(1.05);
+    }
+
+    /* Неоновые эффекты для текста */
+    .neon-text {
+        color: #ffb3f2;
+        text-shadow: 0 0 5px #ffb3f2, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+    }
+
+    /* Кнопки Freak */
+    .btn-freak {
+        background: linear-gradient(90deg, #ffb3f2, #d38cff);
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        transition: all 0.3s;
+        position: relative;
+    }
+    .btn-freak:hover {
+        box-shadow: 0 0 15px #ff8ae2, 0 0 30px #c76dff;
+        transform: scale(1.1);
+    }
+
+    /* Мягкое мигание для кнопки В корзину */
+    @keyframes neon-pulse {
+        0% { box-shadow: 0 0 5px #ff8ae2, 0 0 10px #c76dff; }
+        50% { box-shadow: 0 0 15px #ff8ae2, 0 0 30px #c76dff; }
+        100% { box-shadow: 0 0 5px #ff8ae2, 0 0 10px #c76dff; }
+    }
+    .add-to-cart {
+        animation: neon-pulse 2s infinite;
+    }
+</style>
+{% endblock %}
