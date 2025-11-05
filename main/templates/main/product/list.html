@@ -18,11 +18,11 @@
     </form>
 </div>
 
-<div class="row">
+<div class='row'>
     {% for product in products %}
     <div class="col-md-3">
         <div class="product-card float-animation">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card img">
             <h5 class="mt-2">{{ product.name }}</h5>
             <p class="fw-bold">{{ product.price }} ₽</p>
             <a href="{% url 'main:product_detail' product.id product.slug %}" class="btn btn-freak w-100">Подробнее</a>
@@ -64,6 +64,12 @@
     .row .col-md-3:nth-child(2n) .float-animation {
         animation: float2 5s ease-in-out infinite;
     }
+    .product-card img {
+    width: 100%;       /* подгоняем по ширине блока */
+    height: 350px;     /* фиксированная высота */
+    object-fit: cover; /* обрезка лишнего, сохраняем пропорции */
+    border-radius: 12px;
+}
 
 </style>
 {% endblock %}

@@ -1,0 +1,127 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Корзина - FreakShop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 neon-box">Ваша корзина</h2>
+
+    {% if cart|length > 0 %}
+    <div class="table-responsive">
+        <table class="table align-middle text-white">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Итог</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr class="align-middle">
+                    <td class="d-flex align-items-center">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3" style="width: 70px; height: 70px; object-fit: cover;">
+                        <a href="{{ item.product.get_absolute_url }}" style="color:#221a02; text-shadow:0 0 5px #ffb3f2,0 0 10px #c76dff; font-weight:bold;">
+                            {{ item.product.name }}
+                        </a>
+                    </td>
+                    <td class="fw-bold neon-price">{{ item.price }} ₽</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:cart_add' item.product.id %}" class="d-flex">
+                            {% csrf_token %}
+                            {{ item.update_quantity_form.quantity }}
+                            {{ item.update_quantity_form.override }}
+                            <button type="submit" class="btn btn-freak ms-2">Обновить</button>
+                        </form>
+                    </td>
+                    <td class="fw-bold neon-price">{{ item.total_price }} ₽</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:cart_remove' item.product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="neon-price">Общая сумма: {{ cart.get_total_price }} ₽</h4>
+        <div>
+            <a href="{% url 'main:product_list' %}" class="btn btn-freak me-2">Продолжить покупки</a>
+            <a href="#" class="btn btn-freak">Оформить заказ</a>
+        </div>
+    </div>
+
+    {% else %}
+    <p class="neon-text">Корзина пуста.</p>
+    <a href="{% url 'main:product_list' %}" class="btn btn-freak">Вернуться к покупкам</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Мини-превью картинок */
+    .img-thumbnail {
+        border-radius: 12px;
+        border: 2px solid #c76dff;
+    }
+
+    /* Неоновый текст */
+    .neon-text {
+        color: #ffb3f2;
+        text-shadow: 0 0 5px #ffb3f2, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+    }
+
+    .neon-box {
+        display: inline-block;
+        padding: 10px 15px;
+        border: 2px solid #c76dff;
+        border-radius: 12px;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-shadow: 0 0 5px #ffb3f2, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+    }
+
+    .neon-price {
+        color: #ffffff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #c76dff, 0 0 20px #ff8ae2;
+    }
+
+    /* Кнопки Freak */
+    .btn-freak {
+        background: linear-gradient(90deg, #ffb3f2, #d38cff);
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        transition: all 0.3s;
+    }
+    .btn-freak:hover {
+        box-shadow: 0 0 15px #ff8ae2, 0 0 30px #c76dff;
+        transform: scale(1.05);
+    }
+
+    /* Индикатор количества товаров на корзине */
+    .cart-counter {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #ff0080;
+        color: white;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 3px 6px;
+        font-size: 0.8rem;
+        min-width: 20px;
+        text-align: center;
+    }
+</style>
+{% endblock %}

@@ -23,7 +23,26 @@
             --freak-cyan: #6dffff;
             --freak-dark: #0a0014;
         }
+        .cart-icon-wrapper {
+    position: relative;
+}
 
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff3d3d; /* ярко-красный */
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px #ff3d3d, 0 0 10px #ff8ae2; /* неоновый эффект */
+}
         body {
             background: radial-gradient(circle at 50% 30%, #220033 0%, #0a0014 80%);
             color: #f3f3f3;
@@ -31,7 +50,26 @@
             overflow-x: hidden;
             position: relative;
         }
+        /*Хуйня на экране*/
+        .random-surprise {
+        position: fixed;
+        top: -50px;
+        z-index: 9999;
+        pointer-events: none;
+        animation-name: fall-spin;
+        animation-timing-function: linear;
+        }
 
+        @keyframes fall-spin {
+            0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg); /* падает вниз и крутится */
+        opacity: 0;
+    }
+}
         /* Неоновая сетка фона */
         body::before {
             content: "";
@@ -207,6 +245,39 @@
             animation: flicker 3s infinite;
         }
     </style>
+<script>
+const surprises = ['😎','🔥','💥','✨','🤠','🤑','😈', '😜', '😍', '😘', '😊', '🍺', '❤️'];
+
+function spawnSurprise() {
+    const surprise = document.createElement('div');
+    surprise.classList.add('random-surprise');
+
+    // выбираем случайный смайлик
+    surprise.textContent = surprises[Math.floor(Math.random() * surprises.length)];
+
+    // задаём случайную стартовую позицию по горизонтали
+    surprise.style.left = Math.random() * 90 + 'vw'; // чтобы не за границами
+
+    // случайный размер
+    const size = Math.random() * 10 + 20; // от 20px до 50px
+    surprise.style.fontSize = size + 'px';
+
+    // добавляем в body
+    document.body.appendChild(surprise);
+
+    // анимация падения
+    const duration = Math.random() * 5 + 5; // 5-10 секунд
+    surprise.style.animationDuration = duration + 's';
+
+    // удаляем после окончания анимации
+    surprise.addEventListener('animationend', () => {
+        surprise.remove();
+    });
+}
+
+// спавн каждые 1-3 секунды
+setInterval(spawnSurprise, Math.random() * 2000 + 500);
+</script>
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -243,7 +314,14 @@
 
         <li class="nav-item nav-icons d-flex align-items-center">
           <a href="#" title="Вход"><i class="fa-regular fa-user"></i></a>
-          <a href="#" title="Корзина"><i class="fa-solid fa-bag-shopping"></i></a>
+          <a href="{% url 'cart:cart_detail' %}" title="Корзина" class="cart-icon-wrapper" style="position: relative; display: inline-block;">
+    <i class="fa-solid fa-bag-shopping fa"></i>
+    {% if cart|length > 0 %}
+        <span class="cart-count">
+            {% if cart|length > 9 %}9+{% else %}{{ cart|length }}{% endif %}
+        </span>
+    {% endif %}
+</a>
         </li>
       </ul>
     </div>
@@ -262,7 +340,6 @@
     <p class="small">Следи за нами: <a href="#">Instagram</a> | <a href="#">Telegram</a></p>
   </div>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% block scripts %}{% endblock %}
 </body>

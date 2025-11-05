@@ -9,6 +9,17 @@ def product_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
+
+    sort = request.GET.get('sort')
+    if sort == 'price_asc':
+        products = products.order_by('price')
+    elif sort == 'price_desc':
+        products = products.order_by('-price')
+    elif sort == 'name_asc':
+        products = products.order_by('name')
+    elif sort == 'name_desc':
+        products = products.order_by('-name')
+
     return render(request, 'main/product/list.html',
                   {'category': category,
                    'categories': categories,
