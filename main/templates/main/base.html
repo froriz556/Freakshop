@@ -313,7 +313,17 @@ setInterval(spawnSurprise, Math.random() * 2000 + 500);
         </li>
 
         <li class="nav-item nav-icons d-flex align-items-center">
-          <a href="#" title="Вход"><i class="fa-regular fa-user"></i></a>
+                    <div class="nav-icons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:profile' %}" title="Профиль">
+                        <i class="fa-regular fa-user"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'users:login' %}" title="Войти или зарегистрироваться">
+                        <i class="fa-regular fa-user"></i>
+                    </a>
+                {% endif %}
+          </div>
           <a href="{% url 'cart:cart_detail' %}" title="Корзина" class="cart-icon-wrapper" style="position: relative; display: inline-block;">
     <i class="fa-solid fa-bag-shopping fa"></i>
     {% if cart|length > 0 %}

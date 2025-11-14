@@ -1,0 +1,58 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}Регистрация - Freakshop{% endblock %}
+
+{% block content %}
+<div class="register-page">
+
+  <!-- Неоновый логотип на фоне -->
+  <div class="freak-logo-bg">FREAK<span>SHOP</span></div>
+
+  <div class="register-container">
+    <a href="{% url 'main:product_list' %}" class="back-btn">← На главную</a>
+
+    <h2 class="register-title">РЕГИСТРАЦИЯ</h2>
+
+    {% if form.non_field_errors %}
+      <div class="errors">
+        {% for err in form.non_field_errors %}
+          <p>{{ err }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" class="auth-form" novalidate>
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.first_name.errors }}
+        {{ form.first_name }}
+      </div>
+      <div class="form-group">
+        {{ form.last_name.errors }}
+        {{ form.last_name }}
+      </div>
+      <div class="form-group">
+        {{ form.email.errors }}
+        {{ form.email }}
+      </div>
+      <div class="form-group">
+        {{ form.password1.errors }}
+        {{ form.password1 }}
+      </div>
+      <div class="form-group">
+        {{ form.password2.errors }}
+        {{ form.password2 }}
+      </div>
+
+      <button type="submit" class="btn-freak">Создать аккаунт</button>
+    </form>
+
+    <p class="auth-note">
+      Уже есть аккаунт?
+      <a href="{% url 'users:login' %}">Войти</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
+

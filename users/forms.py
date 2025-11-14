@@ -14,9 +14,9 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, max_length=66,
                              widget=forms.EmailInput(attrs={'placeholder': 'Ваш e-mail'}))
     first_name = forms.CharField(required=True, max_length=50,
-                                 widget=forms.CharField(attrs={'placeholder': 'Имя'}))
+                                 widget=forms.TextInput(attrs={'placeholder': 'Имя'}))
     last_name = forms.CharField(required=True, max_length=50,
-                                 widget=forms.CharField(attrs={'placeholder': 'Фамилия'}))
+                                 widget=forms.TextInput(attrs={'placeholder': 'Фамилия'}))
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'}))
 
@@ -40,14 +40,14 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomUserLoginForm(AuthenticationForm):
     username = forms.CharField(label='email', widget=forms.TextInput(attrs={'autofocus': True, 'placeholder': 'Адрес электронной почты'}))
-    password = forms.CharField(label='password', widget=forms.TextInput(attrs={'autofocus': True, 'placeholder': 'Пароль'}))
+    password = forms.CharField(label='password', widget=forms.PasswordInput(attrs={'autofocus': True, 'placeholder': 'Пароль'}))
 
     def clean(self):
         email = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
         if email and password:
-            self.user_cache = authenticate(self.request(email=email, password=password))
+            self.user_cache = authenticate(self.request, username=email, password=password)
             if self.user_cache is None:
                 raise forms.ValidationError('Неправильная почта или пароль')
             elif not self.user_cache.is_active:
@@ -62,9 +62,9 @@ class CustomUserUpdateForm(ModelForm):
     email = forms.EmailField(required=False, max_length=66,
                              widget=forms.EmailInput(attrs={'placeholder': 'Ваш e-mail'}))
     first_name = forms.CharField(required=True, max_length=50,
-                                 widget=forms.CharField(attrs={'placeholder': 'Имя'}))
+                                 widget=forms.TextInput(attrs={'placeholder': 'Имя'}))
     last_name = forms.CharField(required=True, max_length=50,
-                                 widget=forms.CharField(attrs={'placeholder': 'Фамилия'}))
+                                 widget=forms.TextInput(attrs={'placeholder': 'Фамилия'}))
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'phone']

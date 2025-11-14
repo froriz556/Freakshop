@@ -1,0 +1,41 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block title %}Авторизация — FreakShop{% endblock %}
+
+{% block content %}
+<div class="freak-logo-bg">FREAK<span>SHOP</span></div>
+<div class="auth-container">
+
+    <a href="{% url 'main:product_list' %}" class="back-home">&larr; На главную</a>
+
+    <h2 class="auth-title">Вход в FreakShop</h2>
+
+    {% if form.non_field_errors %}
+    <div class="auth-errors">
+        {% for err in form.non_field_errors %}
+        <p>{{ err }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" novalidate class="auth-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.errors }}
+            {{ form.username }}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.errors }}
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="btn-freak">Войти</button>
+    </form>
+
+    <p class="auth-note">
+        Нет аккаунта?
+        <a href="{% url 'users:register' %}" class="auth-link">Зарегистрироваться</a>
+    </p>
+</div>
+{% endblock %}

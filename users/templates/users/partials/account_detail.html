@@ -1,0 +1,23 @@
+<div class="address-box">
+  <p class="default-address">Информация для связи</p>
+  <p>{{ user.first_name }} {{ user.last_name }}</p>
+
+  {% if user.phone %}
+    <p>{{ user.phone }}</p>
+  {% endif %}
+
+  {% if not user.phone %}
+    <p>Информация отсутствует</p>
+  {% endif %}
+
+  <div class="button-container">
+    <button
+      hx-get="{% url 'users:edit_account_details' %}"
+      hx-target="#account-details-content"
+      hx-swap="innerHTML">
+      Edit
+    </button>
+  </div>
+</div>
+
+<div id="account-details-content" hx-swap-oob="true"></div>

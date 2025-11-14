@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --freak-pink: #ff8ae2;
+  --freak-purple: #c76dff;
+  --freak-cyan: #6dffff;
+  --freak-dark: #0a0014;
+}
+
+/* ======= Общие стили для страниц users ======= */
+body {
+  background: radial-gradient(circle at 50% 30%, #220033 0%, #0a0014 80%);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container {
+  background: rgba(20, 0, 40, 0.8);
+  border: 1px solid rgba(255, 138, 226, 0.3);
+  box-shadow: 0 0 20px rgba(199, 109, 255, 0.4);
+  border-radius: 20px;
+  padding: 40px 60px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Неоновая подсветка блока */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(90deg, var(--freak-pink), var(--freak-purple), var(--freak-cyan));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Заголовок */
+.auth-container h1 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--freak-cyan);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px var(--freak-cyan), 0 0 20px var(--freak-purple);
+}
+
+/* Поля формы */
+.auth-container input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.auth-container input:focus {
+  box-shadow: 0 0 10px var(--freak-pink), 0 0 20px var(--freak-purple);
+}
+
+/* Кнопка Freak */
+.btn-freak {
+  width: 100%;
+  padding: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(90deg, var(--freak-pink), var(--freak-purple));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-freak:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--freak-pink), 0 0 40px var(--freak-cyan);
+  text-shadow: 0 0 10px #fff;
+}
+
+/* Ошибки */
+.errors p {
+  color: #ff5c93;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* Ссылка "нет аккаунта" */
+.auth-note {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.auth-note a {
+  color: var(--freak-pink);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.auth-note a:hover {
+  color: var(--freak-cyan);
+  text-shadow: 0 0 10px var(--freak-pink);
+}
+
+/* ======= Профиль ======= */
+.profile-container {
+  background: rgba(20, 0, 40, 0.85);
+  border: 1px solid rgba(255, 138, 226, 0.3);
+  box-shadow: 0 0 25px rgba(199, 109, 255, 0.4);
+  border-radius: 20px;
+  padding: 50px 70px;
+  width: 600px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.profile-container h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--freak-cyan);
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  margin-bottom: 30px;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+.profile-actions button {
+  margin: 10px;
+  padding: 10px 25px;
+  border-radius: 8px;
+}
+
+.logout-btn {
+  background: linear-gradient(90deg, #ff5c93, #ff3d3d);
+}
+
+.logout-btn:hover {
+  box-shadow: 0 0 20px #ff3d3d;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.auth-container, .profile-container {
+  animation: fadeInUp 0.7s ease;
+}
+/* === Неоновый логотип над формой === */
+.freak-logo-bg {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 6rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #ffb6ff;
+    text-shadow:
+        0 0 10px #ff8ae2,
+        0 0 20px #ff8ae2,
+        0 0 40px #c76dff,
+        0 0 80px #c76dff,
+        0 0 120px #ff8ae2;
+    z-index: 1;
+    animation: flicker 4s infinite, pulseGlow 3s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Слово SHOP — бирюзовое неоновое */
+.freak-logo-bg span {
+    color: #6dffff;
+    text-shadow:
+        0 0 10px #6dffff,
+        0 0 25px #6dffff,
+        0 0 50px #6dffff,
+        0 0 80px #00ffff;
+}
+
+/* Неоновая пульсация */
+@keyframes pulseGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 10px #ff8ae2,
+            0 0 20px #ff8ae2,
+            0 0 40px #c76dff,
+            0 0 80px #c76dff,
+            0 0 120px #ff8ae2;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        text-shadow:
+            0 0 20px #ff8ae2,
+            0 0 40px #ff8ae2,
+            0 0 80px #c76dff,
+            0 0 120px #ff8ae2,
+            0 0 160px #c76dff;
+        transform: translateX(-50%) scale(1.03);
+    }
+}
+
+
+/* Контейнер регистрации */
+.register-container {
+    position: relative;
+    z-index: 2;
+    width: 400px;
+    margin: 180px auto 100px; /* добавили отступ сверху */
+    background: rgba(20, 0, 40, 0.8);
+    border: 1px solid rgba(200, 100, 255, 0.4);
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(255, 138, 226, 0.3),
+                0 0 45px rgba(199, 109, 255, 0.2);
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Кнопка "На главную" в левом верхнем углу */
+.back-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: inline-block;
+    color: var(--freak-cyan);
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+    text-shadow: 0 0 10px var(--freak-cyan);
+}
+
+.back-btn:hover {
+    color: var(--freak-pink);
+    text-shadow: 0 0 20px var(--freak-pink), 0 0 30px var(--freak-purple);
+}
+
+/* Заголовок */
+.register-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 15px var(--freak-cyan), 0 0 30px var(--freak-purple);
+}
+
+/* Поля формы */
+.form-group input {
+    width: 100%;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 15px var(--freak-cyan);
+    background: rgba(255,255,255,0.2);
+}
+
+/* Ошибки */
+.errors p {
+    color: #ff5c5c;
+    text-shadow: 0 0 10px #ff3d3d;
+}
+
+/* Кнопка отправки */
+.btn-freak {
+    background: linear-gradient(90deg, var(--freak-pink), var(--freak-purple));
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    padding: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-freak:hover {
+    box-shadow: 0 0 20px var(--freak-pink), 0 0 40px var(--freak-purple);
+    transform: scale(1.05);
+}
+
+/* Подпись снизу */
+.auth-note {
+    margin-top: 1rem;
+    color: #ccc;
+}
+
+.auth-note a {
+    color: var(--freak-cyan);
+    text-decoration: none;
+}
+
+.auth-note a:hover {
+    color: var(--freak-pink);
+}
+
+/* === Выравнивание формы регистрации === */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Все элементы формы — одинаковой ширины */
+.auth-form .form-group input,
+.auth-form .btn-freak {
+    width: 100%;
+    max-width: 460px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Поля ввода */
+.auth-form .form-group input {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 14px 18px;
+    color: #fff;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.auth-form .form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--freak-cyan), 0 0 20px var(--freak-purple);
+}
+
+/* Кнопка — выровнена и совпадает по ширине */
+.auth-form .btn-freak {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 460px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+/* Маленький отступ под кнопкой для "Уже есть аккаунт?" */
+.auth-note {
+    text-align: center;
+    margin-top: 12px;
+}
+
+/* === Контейнер формы === */
+.auth-container {
+    background: rgba(10, 0, 20, 0.8);
+    border-radius: 20px;
+    padding: 60px 80px; /* увеличены отступы */
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    max-width: 600px; /* было 400–450 */
+    margin: 80px auto;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* === Заголовок === */
+.auth-container h2 {
+    font-size: 2rem; /* было около 1.4rem */
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+}
+
+/* === Поля формы === */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-form .form-group input {
+    width: 100%;
+    max-width: 460px; /* шире поля */
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    border-radius: 12px;
+    padding: 18px 22px; /* больше отступы */
+    color: #fff;
+    font-size: 1.2rem; /* крупнее текст */
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.auth-form .form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+}
+
+/* === Кнопка === */
+.auth-form .btn-freak {
+    width: 100%;
+    max-width: 460px;
+    background: linear-gradient(90deg, #ff6cfb, #b26cff);
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-form .btn-freak:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff;
+}
+
+/* === Подпись под формой === */
+.auth-note {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.auth-note a {
+    color: #00ffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-note a:hover {
+    text-shadow: 0 0 10px #00ffff;
+}
+
+/* Кнопка "На главную" */
+.back-home {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    color: #00ffff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.back-home:hover {
+    color: #ff8ae2;
+    text-shadow: 0 0 10px #ff8ae2, 0 0 20px #00ffff;
+}
+
+/* Неоновый логотип сверху */
+.freakshop-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: var(--freak-pink);
+    text-shadow:
+        0 0 20px var(--freak-pink),
+        0 0 40px var(--freak-purple),
+        0 0 60px var(--freak-cyan);
+    animation: flicker 3s infinite;
+}
+
+/* Эффект мигания */
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.4; }
+}
+

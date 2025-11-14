@@ -1,0 +1,12 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>Профиль пользователя</h1>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <a href="{% url 'users:logout' %}" class="btn btn-freak mt-3">Выйти</a>
+</div>
+{% endblock %}
